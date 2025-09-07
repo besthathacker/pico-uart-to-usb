@@ -7,6 +7,7 @@ pico_sdk_init()
 
 add_executable(pico_usb_uart
     main.c
+    usb_descriptors.c
 )
 
 target_include_directories(pico_usb_uart PRIVATE
