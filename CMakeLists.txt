@@ -9,6 +9,10 @@ add_executable(pico_usb_uart
     main.c
 )
 
+target_include_directories(pico_usb_uart PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}  # so tusb_config.h is found
+)
+
 target_link_libraries(pico_usb_uart
     pico_stdlib
     hardware_uart
