@@ -1,0 +1,48 @@
+name: Build Pico USB-UART
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up ARM GCC
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: '13.2.rel1'
+
+      - name: Install CMake & Ninja
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
+
+      - name: Fetch Pico SDK
+        run: |
+          git clone --depth=1 https://github.com/raspberrypi/pico-sdk.git $GITHUB_WORKSPACE/pico-sdk
+          cd $GITHUB_WORKSPACE/pico-sdk
+          git submodule update --init
+
+      - name: Configure CMake
+        run: |
+          mkdir build
+          cd build
+          cmake .. \
+            -DPICO_SDK_PATH=$GITHUB_WORKSPACE/pico-sdk \
+            -DCMAKE_BUILD_TYPE=Release \
+            -G Ninja
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Upload UF2
+        uses: actions/upload-artifact@v3
+        with:
+          name: pico_usb_uart.uf2
+          path: build/*.uf2
