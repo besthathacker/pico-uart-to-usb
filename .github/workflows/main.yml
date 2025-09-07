@@ -20,7 +20,7 @@ jobs:
       - name: Set up ARM GCC
         uses: carlosperate/arm-none-eabi-gcc-action@v1
         with:
-          release: '13.2.rel1' # latest tested
+          release: '13.2.Rel1' # latest tested
 
       # 3. Install CMake + Ninja
       - name: Install CMake & Ninja
