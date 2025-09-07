@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up ARM GCC
         uses: carlosperate/arm-none-eabi-gcc-action@v1
@@ -42,7 +42,7 @@ jobs:
         run: cmake --build build
 
       - name: Upload UF2
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pico_usb_uart.uf2
           path: build/*.uf2
